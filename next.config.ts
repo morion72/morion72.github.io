@@ -1,9 +1,9 @@
-import type {NextConfig} from 'next';
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
   output: 'export',
   distDir: 'docs',
+  assetPrefix: './', // Ключевой момент: относительные пути!
   typescript: {
     ignoreBuildErrors: true,
   },
