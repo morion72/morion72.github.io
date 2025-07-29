@@ -2,15 +2,18 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { getPersonalizedMessageAction } from '@/app/actions';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Gift } from 'lucide-react';
 
+// ВАЖНО: Отредактируйте этот текст, чтобы написать свое собственное поздравление!
+const personalizedMessage = `С днем рождения, Лиза!\n\nИтак, я не слишком знаю что говорить.\n Поздравляю тебя, желаю оставаться такой же умной, милой и классной)`;
+
+
 type EndScreenProps = {
   playerName: string;
-  explorationProgress: number; // Kept for potential future use, but not used for message generation
-  discoveredSecrets: number; // Kept for potential future use, but not used for message generation
+  explorationProgress: number; 
+  discoveredSecrets: number; 
 };
 
 export default function EndScreen({
@@ -21,25 +24,14 @@ export default function EndScreen({
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const fetchMessage = async () => {
-      try {
-        setLoading(true);
-        const result = await getPersonalizedMessageAction({
-          playerName,
-        });
-        if (result.message) {
-          setMessage(result.message);
-        } else {
-          setError('Не удалось создать послание. Духи молчат.');
-        }
-      } catch (e) {
-        setError('Произошла ошибка при связи с духами.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchMessage();
+    try {
+      // Теперь мы просто используем переменную из этого же файла
+      setMessage(personalizedMessage.replace('${playerName}', playerName));
+    } catch (e) {
+      setError('Произошла ошибка при загрузке послания.');
+    } finally {
+      setLoading(false);
+    }
   }, [playerName]);
 
   return (
@@ -71,4 +63,3 @@ export default function EndScreen({
     </div>
   );
 }
- 
